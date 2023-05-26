@@ -11,6 +11,6 @@ def filter_datum(fields: List[str], redaction: str,
                  message: str, separator: str) -> str:
     """redact document like i'm in the FBI ;)"""
     for field in fields:
-        message = re.sub(r'{}=(\w+|\d+\/\d+\/\d+){}'.format(field, separator),
-                         '{}={}{}'.format(field, redaction, separator), message)
+        message = re.sub(rf'{field}=(\w+|\d+\/\d+\/\d+){separator}',
+                         f'{field}={redaction}{separator}', message)
     return message
