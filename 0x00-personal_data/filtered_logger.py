@@ -5,6 +5,7 @@ returns the log message obfuscated
 """
 from typing import List
 import re
+import os
 import logging
 PII_FIELDS = ('name', 'email', 'phone', 'ssn', 'password')
 
@@ -47,3 +48,13 @@ def get_logger() -> logging.Logger:
     stream_handler.setFormatter(RedactingFormatter(PII_FIELDS))
     logger.addHandler(stream_handler)
     return logger
+
+
+def get_db() -> MySQLConnection:
+    """returns db connection"""
+    return mysql.connector.connect(
+        host=os.getenv("PERSONAL_DATA_DB_HOST"),
+        user=os.getenv("PERSONAL_DATA_DB_USERNAME"),
+        password=os.getenv("PERSONAL_DATA_DB_PASSWORD"),
+        database=os.getenv("PERSONAL_DATA_DB_NAME")
+    )
