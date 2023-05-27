@@ -3,7 +3,9 @@
 contains a function called filter_datum that
 returns the log message obfuscated
 """
-from typing import List
+from typing import List, Dict
+from mysql.connector import MySQLConnection
+import mysql.connector
 import re
 import os
 import logging
