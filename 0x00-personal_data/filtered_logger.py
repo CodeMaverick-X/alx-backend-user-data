@@ -60,3 +60,24 @@ def get_db() -> MySQLConnection:
         password=os.getenv("PERSONAL_DATA_DB_PASSWORD"),
         database=os.getenv("PERSONAL_DATA_DB_NAME")
     )
+
+
+def main():
+    """Entry Point"""
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute(
+        "SELECT name, email, phone, ssn, password, last_login,\
+        user_agent FROM users;")
+    logger = get_logger()
+    for row in cursor:
+        logger.info("name={};email={};phone={};ssn={};password={};\
+                    last_login={};user_agent={};".
+                    format(row[0], row[1], row[2], row[3], row[4],
+                           row[5], row[6]))
+    cursor.close()
+    db.close()
+
+
+if __name__ == "__main__":
+    main()
