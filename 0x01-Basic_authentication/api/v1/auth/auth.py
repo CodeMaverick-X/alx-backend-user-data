@@ -5,6 +5,7 @@ module that contains the authentication class
 from flask import request
 from typing import List, TypeVar
 
+
 class Auth:
     """authentication class to manage
     the API authentication"""
