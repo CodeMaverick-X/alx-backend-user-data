@@ -11,16 +11,19 @@ class Auth:
     the API authentication"""
 
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
-        """authorized path"""
-        if path:
-            path = path.strip('/')
-            path = '/' + path + '/'
-        try:
-            if path in excluded_paths:
-                return False
+        """
+        Ensures that a route user is authenticated
+        """
+        if path is None:
             return True
-        except (Exception):
+        if excluded_paths is None:
             return True
+        if path.endswith('/'):
+            path = path[0: -1]
+        if path in excluded_paths or path + '/' in excluded_paths\
+                or self.wild_path_match(path, excluded_paths):
+            return False
+        return True
 
     def authorization_header(self, request=None) -> str:
         """authorize headers"""
