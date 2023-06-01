@@ -9,7 +9,7 @@ from os import getenv
 
 
 @app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
-def auth_Session() -> str:
+def auth_Session() -> make_response:
     """handles authentication for session"""
 
     email = request.form.get('email')
