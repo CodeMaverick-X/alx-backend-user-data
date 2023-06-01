@@ -32,13 +32,14 @@ def before_request():
     if not auth:
         return
     excl_lst = ['/api/v1/status/',
-                '/api/v1/unauthorized/', '/api/v1/forbidden/']
+                '/api/v1/unauthorized/', '/api/v1/forbidden/',
+                '/api/v1/auth_session/login/']
     request.current_user = auth.current_user(request)
     if not auth.require_auth(request.path, excl_lst):
         return
-    if not auth.authorization_header(request):
+    if not auth.authorization_header(request) and\
+       not auth.session_cookie(request):
         abort(401)
-        return None
     if not request.current_user:
         abort(403)
         return None
