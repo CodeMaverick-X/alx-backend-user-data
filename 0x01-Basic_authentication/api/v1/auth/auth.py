@@ -25,6 +25,14 @@ class Auth:
             return False
         return True
 
+    def wild_path_match(self, path: str, excluded_paths: List[str]) -> bool:
+        """match wild character"""
+        for d in excluded_paths:
+            if d.endswith("*"):
+                if path[:len(d) - 1] + '*' == d:
+                    return True
+        return False
+
     def authorization_header(self, request=None) -> str:
         """authorize headers"""
         if not request or 'Authorization' not in request.headers.keys():
