@@ -22,7 +22,7 @@ def auth_Session():
 
     user_l = User.search({'email': email})
     if user_l == [] or not user_l:
-        return jsonify({"error": "no user found for this email"}), 400
+        return jsonify({"error": "no user found for this email"}), 404
 
     user = user_l[0]
     if not user.is_valid_password(password):
