@@ -2,7 +2,7 @@
 """
 contains view for session authentication
 """
-from flask import jsonify, make_response, request
+from flask import jsonify, make_response, request, abort
 from api.v1.views import app_views
 from models.user import User
 from os import getenv
@@ -34,3 +34,13 @@ def auth_Session():
     resp = make_response(jsonify(user.to_json()))
     resp.set_cookie(sess_name, sess_id)
     return resp
+
+
+@app_views.route('/auth_session/logout', methods=['DELETE'],
+                 strict_slashes=False)
+def delete_Session():
+    """delete the session from the memory"""
+    from api.v1.app import auth
+    if auth.destroy_session(request):
+        return jsonify({}), 200
+    abort(404)
