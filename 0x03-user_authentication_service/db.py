@@ -43,7 +43,7 @@ class DB:
     def find_user_by(self, **kwargs: Dict) -> User:
         """find user by the kwargs given"""
         session = self._session
-        user = session.query(User).filter_by(**kwargs).one()
+        user = session.query(User).filter_by(**kwargs).first()
         if user is None:
             raise NoResultFound
         return user
