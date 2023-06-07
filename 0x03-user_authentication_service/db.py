@@ -5,6 +5,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
+from sqlalchemy.orm.exc import NoResultFound, InvalidRequestError
 from user import User
 from user import Base
 
@@ -37,3 +38,9 @@ class DB:
         session.add(new_user)
         session.commit()
         return new_user
+
+    def find_user_by(self, **kwargs):
+        """find user by the kwargs given"""
+        session = self._session
+        user = session.query(User).filter_by(**kwargs).one()
+        return user
