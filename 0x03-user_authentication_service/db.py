@@ -40,10 +40,20 @@ class DB:
         session.commit()
         return new_user
 
-    def find_user_by(self, **kwargs: Dict) -> User:
+    def find_user_by(self, **kwargs) -> User:
         """find user by the kwargs given"""
         session = self._session
         user = session.query(User).filter_by(**kwargs).first()
         if user is None:
             raise NoResultFound
         return user
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """Update user record"""
+        user = self.find_user_by(id=user_id)
+        for key, value in kwargs.items():
+            if not hasattr(user, key):
+                raise ValueError
+            setattr(user, key, value)
+        self._session.add(user)
+        self._session.commit()
