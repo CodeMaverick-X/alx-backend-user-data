@@ -44,4 +44,6 @@ class DB:
         """find user by the kwargs given"""
         session = self._session
         user = session.query(User).filter_by(**kwargs).one()
+        if user is None:
+            raise NoResultFound
         return user
