@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
 conatins flask app"""
-from flask import Flask, jsonify, request, abort, make_response
+from flask import Flask, jsonify, request, abort,\
+                  make_response, redirect, url_for
 from user import User
 from auth import Auth
 
@@ -42,6 +43,17 @@ def login():
                                   "message": "logged in"}))
     resp.set_cookie('session_id', sess_id)
     return resp
+
+
+@app.route('/sessions', methods=['DELETE'])
+def logout():
+    """log out and delete session id"""
+    sess_id = request.cookies.get('session_id')
+    user = AUTH.get_user_from_session_id(sess_id)
+    if not user:
+        abort(403)
+    AUTH.destroy_session(user.id)
+    return redirect(url_for('index'))
 
 
 if __name__ == "__main__":
