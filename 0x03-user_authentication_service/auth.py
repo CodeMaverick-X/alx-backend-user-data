@@ -43,6 +43,6 @@ class Auth:
         else:
             return bcrypt.checkpw(bytes_p, user.hashed_password)
 
-    def _generate_uuid() -> str:
+    def _generate_uuid(self) -> str:
         """generate and return uuid"""
         return str(uuid.uuid4())
